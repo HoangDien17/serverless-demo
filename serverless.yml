@@ -1,0 +1,23 @@
+service: serverless-example
+
+useDotenv: true
+plugins:
+  - serverless-offline
+  # - serverless-plugin-warmup-ts-bridge-v2
+  # - serverless-plugin-typescript
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-southeast-1
+
+functions:
+  main:
+    handler: dist/lambda.handler
+    events:
+      - http:
+          method: ANY
+          path: ${env:SERVICE_BASE_URL}/
+      - http:
+          method: ANY
+          path: '${env:SERVICE_BASE_URL}/{proxy+}'
